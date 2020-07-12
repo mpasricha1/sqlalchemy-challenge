@@ -1,63 +1,98 @@
-from flask import Flask 
+from flask import Flask, jsonify, render_template
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, func
+import datetime as dt
+
+engine = create_engine('sqlite:///Resources/hawaii.sqlite')
+
+Base = automap_base()
+Base.prepare(engine,reflect=True)
+
+Measurements = Base.classes.measurement
+Stations = Base.classes.station
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-	return '''
-<html>
-	<head>
-		<title> Home Page</title> 
-	</head>
-	<body>
-		<h1> Welcome to the Climate App</h1>
-		<h3> The following links are available</h3>
-		<ul>
-				<li><a href=/api/v1.0/precipitation>Percipitation Information</a></li>
-				<li><a href=/api/v1.0/stations>Station Information</a></li>
-				<li><a href=/api/v1.0/tobs>TOBS(Forget what this means)</a></li>
-		</ul>
-	</body> 
-</html> '''
+	return render_template('index.html')
 
 @app.route('/api/v1.0/precipitation')
 def perciptation():
-	return '''
-<html>
-	<head>
-		<title>Percipitation Page</title> 
-	</head> 
-	<body> 
-		<h1>Welcome to the Percipition Page</h1> 
-	</body> 
-</html> '''
+	session = Session(engine)
+
+	lastDate = session.query(Measurements.date).order_by(Measurements.date.desc()).first()
+
+	for row in lastDate: 
+		date = dt.datetime.strptime(row,"%Y-%m-%d")
+
+	sel = [Measurements.date,
+		   func.sum(Measurements.prcp)]
+
+	data = session.query(*sel).filter(func.strftime("%Y-%m-%d)", Measurements.date) >= str((date - dt.timedelta(days=365)))).\
+					group_by(Measurements.date).all()
+
+	session.close()
+
+	returnList = []
+
+	for row in data: 
+		dateDict = {}
+		dateDict["date"] = row.date 
+		dateDict["prcp"] = row[1]
+		returnList.append(dateDict)
+
+	return jsonify(returnList)
 
 @app.route('/api/v1.0/stations')
 def stations(): 
-	return ''' 
+	session = Session(engine)
 
-<html> 
-	<head>
-		<title>Stations Page</title> 
-	<head>
-	<body> 
-		<h1>Welcome to the Stations Page</h1>
-	</body> 
-</html> '''
+	data = session.query(Stations.station, Stations.name).all()
+	session.close()
+
+	returnList = [] 
+
+	for row in data: 
+		stationDict = {}
+		stationDict["station"] = row.station 
+		stationDict["name"] = row.name
+		returnList.append(stationDict)
+
+	return jsonify(returnList)
 
 @app.route('/api/v1.0/tobs')
 def tobs(): 
-	return '''
-<html>
-	<head>
-		<title>TOBS Page</title> 
-	</head>
-	<body> 
-		<h1>Welcome to the TOBS Page</h1> 
-	</body> 
-</html>'''
+	session = Session(engine)
+	sel = [Stations.station,
+		   func.count(Measurements.station)]
 
+	rankedStations = session.query(*sel).filter(Measurements.station == Stations.station).\
+						group_by(Measurements.station).order_by(func.count(Measurements.station).desc()).first()
+	
+	for row in rankedStations:
+		bestId = rankedStations.station
+	
+	sel = [Stations.station,
+		   func.min(Measurements.tobs),
+		   func.max(Measurements.tobs),
+		   func.avg(Measurements.tobs)
+	]
 
+	data = session.query(*sel).\
+					filter(Measurements.station == Stations.station).\
+					filter(Stations.station == bestId).all()
+	returnList = []
+	for row in data: 
+		tobsDict = {}
+		tobsDict["station"] = row.station
+		tobsDict["min"] = row[1]
+		tobsDict["max"] = row[2]
+		tobsDict["avg"] = row[3]
+		returnList.append(tobsDict)
+	return jsonify(returnList)
 
 if __name__ == "__main__": 
 	app.run(debug=True)

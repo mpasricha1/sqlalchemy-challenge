@@ -1,0 +1,32 @@
+body { 
+	font-family: Georgia, "Times New Roman", Times, serif; 
+	font-size: 16px; 
+	color: #333333; 
+	background-color: #F9F9F9; 
+}
+
+header{	 
+	padding: 30px;
+	padding-right: 250px;
+ }
+
+ section {
+ 	padding: 30px;
+ }
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  background-color: #00e6ac;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
