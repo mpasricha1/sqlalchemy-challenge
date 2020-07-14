@@ -33,7 +33,6 @@ def perciptation():
 
 	data = session.query(*sel).filter(func.strftime("%Y-%m-%d)", Measurements.date) >= str((date - dt.timedelta(days=365)))).\
 					group_by(Measurements.date).all()
-
 	session.close()
 
 	returnList = []
@@ -71,7 +70,7 @@ def tobs():
 
 	rankedStations = session.query(*sel).filter(Measurements.station == Stations.station).\
 						group_by(Measurements.station).order_by(func.count(Measurements.station).desc()).first()
-	
+
 	for row in rankedStations:
 		bestId = rankedStations.station
 	
@@ -84,6 +83,7 @@ def tobs():
 	data = session.query(*sel).\
 					filter(Measurements.station == Stations.station).\
 					filter(Stations.station == bestId).all()
+	session.close()
 	returnList = []
 	for row in data: 
 		tobsDict = {}
