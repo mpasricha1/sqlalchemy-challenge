@@ -1,0 +1,26 @@
+<html lang="en">
+	<head>
+		{% if title %}
+		<title>{{title}}</title>
+		{% else %}
+		<title>Home Page</title>
+		{% endif %}
+		<link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+	</head>	
+	<body>
+		<div class="sidebar">
+			<h4 class="menubar">Menu</h4>
+			<a href=/api/v1.0/precipitation>Percipitation Information</a>
+			<a href=/api/v1.0/stations>Station Information</a>
+			<a href=/api/v1.0/tobs>Tempature Observations</a>
+		</div>
+		<hr>
+	</body>
+	
+
+		{% block content %}{% endblock %}
+
+	<footer>
+		<p>&copy; Mark Pasricha</p>
+	</footer>
+</html>h
