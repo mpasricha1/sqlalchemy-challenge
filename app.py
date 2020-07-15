@@ -84,6 +84,7 @@ def tobs():
 					filter(Measurements.station == Stations.station).\
 					filter(Stations.station == bestId).all()
 	session.close()
+
 	returnList = []
 	for row in data: 
 		tobsDict = {}
@@ -94,5 +95,24 @@ def tobs():
 		returnList.append(tobsDict)
 	return jsonify(returnList)
 
+
+
+@app.route('/api/v1.0/<start>')
+def start(start):
+	session = Session(engine)
+	data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).\
+		filter(Measurements.date >= start).all()
+
+	return jsonify(data)
+
+@app.route('/api/v1.0/<start>/<end>')
+def temp_range(start,end):
+	session = Session(engine)
+	data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).\
+		filter(Measurements.date >= start).\
+		filter(Measurements.date <= end).all()
+	
+	return jsonify(data)
+ 
 if __name__ == "__main__": 
 	app.run(debug=True)
