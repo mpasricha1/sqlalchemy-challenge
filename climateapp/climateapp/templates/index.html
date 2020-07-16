@@ -3,38 +3,38 @@
 {% block content %}
 <header>
 	<h1>Climate Information</h1>
-	<p>This website provides several different links that can be used to gather different information about the weather in Hawaii.The dataset runs ends in 2017 so the date is not currently up to date.</p>
+	<p>This website provides several different links that can be used to gather different information about the weather in Hawaii. The dataset runs till August 23rd, 2017, so the data set is not currently up to date. You can preview the data by clinking on the link in the side bar.</p>
 </header>
 <div class = "maincontainer">
 	<section>
 		<article>
 			<h3>Percipitation</h3>
-			<h4>URL - /api/v1.0/precipitation</h4> 
-			<p>This link will return json with the percipitation by day for the last year</p>
+			<h4>Endpoint - /api/v1.0/precipitation</h4> 
+			<p>This endpoint will return a json with the percipitation by day for the last year. No parameters are required for this endpoint.</p>
 			<hr>
 		</article>
 		<article>
 			<h3>Station Information</h3> 
-			<h4>URL - /api/v1.0/stations </h4>
-			<p>This link will return json with all the station names and id's</p>
+			<h4>Endpoint - /api/v1.0/stations </h4>
+			<p>This endpoint will return a json with all the station names and id's. No Paramaters are required for this endpoint.</p>
 			<hr>
 		</article>
 		<article>
 			<h3>Temperature Observations</h3>
-			<h4>URL - /api/v1.0/tobs</h4>
-			<p>This link returns something with weather</p>
+			<h4>Endpoint - /api/v1.0/tobs</h4>
+			<p>This endpoint returns the T stats for the top ranked weather station in Hawaii. Top ranked is defined by having the most observations within the data set. No parameters are required for this endpoint.</p>
 			<hr>
 		</article>
 		<article>
-			<h3>T Stats with Start Date</h3>
-			<h4>URL - /api/v1.0/&lt;start&gt;</h4>
-			<p>This link returns the T stats for all days greater then the start date . This url requires a start date. The date is formated as such YYYY-MM-DD.</p>
+			<h3>Min Max and Average with Start Date</h3>
+			<h4>Endpoint - /api/v1.0/&lt;start&gt;</h4>
+			<p>This endpoint returns the min, max and average for all days greater then the start date . This url requires a start date. The date is formated as such, YYYY-MM-DD. The link in the side bar currently returns null if you click it. But the endpoint will return results if you pass a start date to the endpoint itself.</p>
 			<hr>
 		</article>
 		<article>
-			<h3>T Stats with Start Date and End Date</h3>
-			<h4>URL - /api/v1.0/&lt;start&gt;/&lt;end&gt;</h4>
-			<p>This link returns the T stats for all days between the start and end date inclusivly . This url requires a start date and an enddate. The date is formated as such YYYY-MM-DD.</p>
+			<h3>Min Max and Average with Start Date and End Date</h3>
+			<h4>Endpoint - /api/v1.0/&lt;start&gt;/&lt;end&gt;</h4>
+			<p>This endpoint returns the min, max and average for all days between the start and end date inclusivly . This endpoint requires a start date and an end date. The date is formated as such, YYYY-MM-DD. The link in the side bar currently returns null if you click it. But the endpoint will return results if you pass a start date and an end date to the endpoint itself.</p>
 			<hr>
 		</article>
 	</section>
