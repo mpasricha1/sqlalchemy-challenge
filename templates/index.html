@@ -1,13 +1,14 @@
 {%extends "base.html" %}
 
 {% block content %}
-	<header>
-		<h1>Climate Information</h1>
-		<p>This website provides several different links that can be used to gather different information about the weather in Hawaii.The dataset runs ends in 2017 so the date is not currently up to date.</p>
-	</header>
+<header>
+	<h1>Climate Information</h1>
+	<p>This website provides several different links that can be used to gather different information about the weather in Hawaii.The dataset runs ends in 2017 so the date is not currently up to date.</p>
+</header>
+<div class = "maincontainer">
 	<section>
 		<article>
-			<h3>Percipitation<h3>
+			<h3>Percipitation</h3>
 			<h4>URL - /api/v1.0/precipitation</h4> 
 			<p>This link will return json with the percipitation by day for the last year</p>
 			<hr>
@@ -32,9 +33,10 @@
 		</article>
 		<article>
 			<h3>T Stats with Start Date and End Date</h3>
-			<h4>URL - /api/v1.0/&lt;start&gt;</h4>
+			<h4>URL - /api/v1.0/&lt;start&gt;/&lt;end&gt;</h4>
 			<p>This link returns the T stats for all days between the start and end date inclusivly . This url requires a start date and an enddate. The date is formated as such YYYY-MM-DD.</p>
 			<hr>
 		</article>
 	</section>
+</div>
 {% endblock %}

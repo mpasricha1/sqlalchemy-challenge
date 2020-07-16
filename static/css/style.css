@@ -3,13 +3,15 @@ body {
 	font-size: 16px; 
 	color: #333333; 
 	background-color: #F9F9F9;
-	overflow-x: hidden
+	overflow-x: hidden;
+
 }
 
 header{	 
 	padding-left:350px;
 	padding-right:350px;
 	padding-top:50px;
+
  }
 
  section {
@@ -23,15 +25,18 @@ footer {
   padding: 3px;
   background-color: black;
   color: white;
-  /*position: absolute;*/
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: 2.5rem;  
 }
-
+.maincontainer{
+	padding-bottom:150px;
+}
 .sidebar {
   margin: 0;
   padding: 0;
+  font-size:18px;
   width: 300px;
   background-color: #00e6ac;
   position: fixed;
