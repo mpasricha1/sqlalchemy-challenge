@@ -1,19 +1,18 @@
-from flask import Flask, jsonify, render_template
+from flask import jsonify, render_template
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 import datetime as dt
+from climateapp import app
 
-engine = create_engine('sqlite:///Resources/hawaii.sqlite')
+engine = create_engine('sqlite:///../Resources/hawaii.sqlite')
 
 Base = automap_base()
 Base.prepare(engine,reflect=True)
 
 Measurements = Base.classes.measurement
 Stations = Base.classes.station
-
-app = Flask(__name__)
 
 @app.route('/')
 def home():
@@ -95,8 +94,6 @@ def tobs():
 		returnList.append(tobsDict)
 	return jsonify(returnList)
 
-
-
 @app.route('/api/v1.0/<start>')
 def start(start):
 	session = Session(engine)
@@ -106,13 +103,10 @@ def start(start):
 	return jsonify(data)
 
 @app.route('/api/v1.0/<start>/<end>')
-def temp_range(start,end):
+def dateRange(start,end):
 	session = Session(engine)
 	data = session.query(func.min(Measurements.tobs), func.avg(Measurements.tobs), func.max(Measurements.tobs)).\
 		filter(Measurements.date >= start).\
 		filter(Measurements.date <= end).all()
 	
 	return jsonify(data)
- 
-if __name__ == "__main__": 
-	app.run(debug=True)
